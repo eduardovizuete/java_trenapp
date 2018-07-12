@@ -1,6 +1,7 @@
 package org.edviz.trenapp;
 
-import org.edviz.trenapp.service.GrafoService;
+import org.edviz.trenapp.service.GraphRunTask;
+import org.edviz.trenapp.utils.Constants;
 import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,9 +19,12 @@ public class TrenappApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		GrafoService gs = new GrafoService();
-		gs.crearGrafoDirecto();
-		//gs.imprimirGrafo();
-		gs.ejecutarOperaciones();
+//		GrafoService gs = new GrafoService();
+//		gs.crearGrafoDirecto();
+//		gs.imprimirGrafo();
+//		gs.ejecutarOperaciones();
+		
+		GraphRunTask operations = new GraphRunTask(Constants.filename);
+		operations.runTasks();
 	}
 }
