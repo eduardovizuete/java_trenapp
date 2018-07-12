@@ -3,6 +3,7 @@ package org.edviz.trenapp.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.edviz.trenapp.criteria.ContainsPathCriteria;
 import org.edviz.trenapp.exception.RouteException;
 import org.edviz.trenapp.model.Edge;
 import org.edviz.trenapp.model.Graph;
@@ -76,7 +77,7 @@ public class GraphServiceImpl implements GraphService {
 			List<Node> nodesInter = getIntermediateNodes(route);
 			List<Node> nodes = getFromAndToNodes(route);
 			Path finalPath = createPath(nodes.get(0), nodes.get(1), nodesInter);
-	        List<Path> allPaths = gd.getAllPathsWithIntermediateFilter(nodes.get(0), nodes.get(1), finalPath);
+	        List<Path> allPaths = gd.getAllPathsWithCriteria(nodes.get(0), nodes.get(1), new ContainsPathCriteria(finalPath));
 	        log.info("Distance " + route + ": " + allPaths.get(0).getTotalDistance());
 	        return allPaths.get(0).getTotalDistance();
 		} catch(RouteException re) {

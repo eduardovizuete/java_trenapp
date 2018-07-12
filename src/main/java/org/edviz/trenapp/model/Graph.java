@@ -3,6 +3,7 @@ package org.edviz.trenapp.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.edviz.trenapp.criteria.PathCriteria;
 import org.edviz.trenapp.exception.RouteException;
 
 public class Graph {
@@ -48,7 +49,7 @@ public class Graph {
         }
     }
     
-    public List<Path> getAllPathsWithIntermediateFilter(Node sourceNode, Node finalNode, Path filter) {
+    public List<Path> getAllPathsWithCriteria(Node sourceNode, Node finalNode, PathCriteria criteria) {
 		existNode(sourceNode);
 		existNode(finalNode);
 
@@ -57,7 +58,7 @@ public class Graph {
         for (Edge e : getNode(sourceNode.getName()).getEdges()) {
             Path path = Path.createEmptyPath();
             path.addEdge(e);
-            paths.addAll(searchPathsWithIntermediateFilter(path, filter, finalNode));
+            paths.addAll(searchPathsWithCriteria(path, criteria, finalNode));
         }
 
         if (paths.isEmpty()) {
@@ -67,15 +68,15 @@ public class Graph {
     }
     
     // DFS 
-	private List<Path> searchPathsWithIntermediateFilter(Path path, Path filter, Node finalNode) {
+	private List<Path> searchPathsWithCriteria(Path path, PathCriteria criteria, Node finalNode) {
 		List<Path> paths = new ArrayList<Path>();
-		if (filter.startWithPath(path)) {
+		if (criteria.passCriteria(path)) {
 			if (isEndOfRoute(path, finalNode)) {
 				paths.add(Path.copyPath(path));
 			}
 			for (Edge e : getNode(path.getLastNode().getName()).getEdges()) {
 				path.addEdge(e);
-				paths.addAll(searchPathsWithIntermediateFilter(path, filter, finalNode));
+				paths.addAll(searchPathsWithCriteria(path, criteria, finalNode));
 			}
 
 		}
