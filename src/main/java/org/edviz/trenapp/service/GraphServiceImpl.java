@@ -1,9 +1,11 @@
 package org.edviz.trenapp.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.edviz.trenapp.criteria.ContainsPathCriteria;
+import org.edviz.trenapp.criteria.DuplicatePathCriteria;
 import org.edviz.trenapp.criteria.ExactStopsCriteria;
 import org.edviz.trenapp.criteria.MaxStopsCriteria;
 import org.edviz.trenapp.exception.RouteException;
@@ -130,11 +132,21 @@ public class GraphServiceImpl implements GraphService {
 		return numPath;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public int distanceShortestRoutes(Node from, Node to) {
-		log.info("Distance shortest route: " 
-				+ from.getName() + Constants.HYPHEN + to.getName());
-		return 0;
+		int distance = 0;
+		try {
+			List<Path> allPaths = gd.getAllPathsWithCriteria(from, to, new DuplicatePathCriteria());
+	        distance = Collections.min(allPaths).getTotalDistance();
+	        log.info("Distance shortest route: " + from.getName() 
+	        		+ Constants.HYPHEN + to.getName() + ": " + distance);
+		} catch(RouteException re) {
+			log.info("Distance shortest route: " + from.getName() 
+    		+ Constants.HYPHEN + to.getName() + ": " + re);
+		}		
+		
+		return distance;
 	}
 
 	@Override

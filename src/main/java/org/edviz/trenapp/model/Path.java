@@ -3,7 +3,7 @@ package org.edviz.trenapp.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Path {
+public class Path implements Comparable {
 	
 	private List<Edge> edges = new ArrayList<Edge>();
 	private int totalDistance = 0;
@@ -101,7 +101,10 @@ public class Path {
 	public String toString() {
 		return "Path (" + totalDistance + ") [edges=" + edges + "]";
 	}
-	
-	
+
+	@Override
+	public int compareTo(Object o) {
+		return this.getTotalDistance() - ((Path) o).getTotalDistance();
+	}
 
 }
