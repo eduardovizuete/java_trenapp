@@ -5,7 +5,7 @@ Distance: A-D-C
 Distance: A-E-B-C-D
 Distance: A-E-D
 TripsMaxStops: C-C-3
-//TripsExactStops: A-C-4
+TripsExactStops: A-C-4
 //DistanceShortestRoute: A-C
 //DistanceShortestRoute: B-B
 //TripsLessDistance: C-C-30
