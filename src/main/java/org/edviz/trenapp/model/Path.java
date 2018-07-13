@@ -92,6 +92,10 @@ public class Path {
         }
         return true;
     }
+	
+	public int getNumberOfStops() {
+        return edges.size();
+    }
 
 	@Override
 	public String toString() {

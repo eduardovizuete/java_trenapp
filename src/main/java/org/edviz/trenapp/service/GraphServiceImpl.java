@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.edviz.trenapp.criteria.ContainsPathCriteria;
+import org.edviz.trenapp.criteria.MaxStopsCriteria;
 import org.edviz.trenapp.exception.RouteException;
 import org.edviz.trenapp.model.Edge;
 import org.edviz.trenapp.model.Graph;
 import org.edviz.trenapp.model.Node;
+import org.edviz.trenapp.model.Nodo;
 import org.edviz.trenapp.model.Path;
 import org.edviz.trenapp.utils.Constants;
 import org.slf4j.Logger;
@@ -89,11 +91,24 @@ public class GraphServiceImpl implements GraphService {
 
 	@Override
 	public int numberOfTripsWithMaxStops(Node from, Node to, int stops) {
-		log.info("Trips with maximun stops: " 
-				+ from.getName() + Constants.HYPHEN 
-				+ to.getName() + Constants.HYPHEN
-				+ stops);
-		return 0;
+		int numPath = 0;
+		try {
+			numPath = gd.getAllPathsWithCriteria(from, to, new MaxStopsCriteria(stops)).size();			
+			log.info("Trips with maximun stops: " 
+					+ from.getName() + Constants.HYPHEN 
+					+ to.getName() + Constants.HYPHEN
+					+ stops + ": "
+					+ numPath);
+			return numPath;
+		} catch(RouteException re) {
+			log.info("Trips with maximun stops: " 
+					+ from.getName() + Constants.HYPHEN 
+					+ to.getName() + Constants.HYPHEN
+					+ stops
+					+ re.getMessage());
+		}
+		
+		return numPath;
 	}
 
 	@Override
