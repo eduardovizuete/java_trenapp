@@ -7,6 +7,7 @@ import java.util.List;
 import org.edviz.trenapp.criteria.ContainsPathCriteria;
 import org.edviz.trenapp.criteria.DuplicatePathCriteria;
 import org.edviz.trenapp.criteria.ExactStopsCriteria;
+import org.edviz.trenapp.criteria.LessDistanceCriteria;
 import org.edviz.trenapp.criteria.MaxStopsCriteria;
 import org.edviz.trenapp.exception.RouteException;
 import org.edviz.trenapp.model.Edge;
@@ -151,11 +152,17 @@ public class GraphServiceImpl implements GraphService {
 
 	@Override
 	public int numberOfTripsWithLessDistance(Node from, Node to, int distance) {
-		log.info("Trips with less distance: " 
-				+ from.getName() + Constants.HYPHEN 
-				+ to.getName() + Constants.HYPHEN
-				+ distance);
-		return 0;
+		int numPath = 0;
+		try {
+			numPath = gd.getAllPathsWithCriteria(from, to, new LessDistanceCriteria(distance)).size();	
+			log.info("Trips with less distance: " + from.getName() + Constants.HYPHEN 
+					+ to.getName() + Constants.HYPHEN + distance + ": " + numPath);
+			return numPath;
+		} catch(RouteException re) {
+			log.info("Trips with less distance: " + from.getName() + Constants.HYPHEN 
+					+ to.getName() + Constants.HYPHEN + distance + ": " + re);
+		}
+		return numPath;
 	}
 
 	@Override
