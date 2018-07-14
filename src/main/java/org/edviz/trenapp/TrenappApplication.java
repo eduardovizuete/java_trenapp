@@ -19,11 +19,6 @@ public class TrenappApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-//		GrafoService gs = new GrafoService();
-//		gs.crearGrafoDirecto();
-//		gs.imprimirGrafo();
-//		gs.ejecutarOperaciones();
-		
 		GraphRunTask operations = new GraphRunTask(Constants.filename);
 		operations.runTasks();
 	}

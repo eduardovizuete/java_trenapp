@@ -3,6 +3,7 @@ package org.edviz.trenapp.model;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("rawtypes")
 public class Path implements Comparable {
 	
 	private List<Edge> edges = new ArrayList<Edge>();
